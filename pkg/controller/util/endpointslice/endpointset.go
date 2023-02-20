@@ -30,6 +30,7 @@ type endpointHash string
 type endpointHashObj struct {
 	Addresses []string
 	Hostname  string
+	Name      string
 }
 
 func hashEndpoint(endpoint *discovery.Endpoint) endpointHash {
@@ -37,6 +38,9 @@ func hashEndpoint(endpoint *discovery.Endpoint) endpointHash {
 	hashObj := endpointHashObj{Addresses: endpoint.Addresses}
 	if endpoint.Hostname != nil {
 		hashObj.Hostname = *endpoint.Hostname
+	}
+	if endpoint.TargetRef != nil {
+		hashObj.Name = endpoint.TargetRef.Name
 	}
 
 	return endpointHash(endpointutil.DeepHashObjectToString(hashObj))
